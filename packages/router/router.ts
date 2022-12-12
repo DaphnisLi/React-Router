@@ -1551,7 +1551,6 @@ export function createRouter(init: RouterInit): Router {
     if (isErrorResult(result)) {
       let boundaryMatch = findNearestBoundary(state.matches, routeId);
       state.fetchers.delete(key);
-      // TODO: In remix, this would reset to IDLE_NAVIGATION if it was a catch -
       // do we need to behave any differently with our non-redirect errors?
       // What if it was a non-redirect Response?
       updateState({
@@ -2850,7 +2849,6 @@ function processRouteLoaderData(
     } else if (isDeferredResult(result)) {
       activeDeferreds && activeDeferreds.set(id, result.deferredData);
       loaderData[id] = result.deferredData.data;
-      // TODO: Add statusCode/headers once we wire up streaming in Remix
     } else {
       loaderData[id] = result.data;
       // Error status codes always override success status codes, but if all

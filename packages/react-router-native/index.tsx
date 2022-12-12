@@ -213,7 +213,6 @@ export function useHardwareBackButton() {
   React.useEffect(() => {
     function handleHardwardBackPress() {
       return undefined;
-      // TODO: The implementation will be something like this
       // if (history.index === 0) {
       //   return false; // home screen
       // } else {

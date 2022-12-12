@@ -119,7 +119,6 @@ export function useSyncExternalStore<T>(
       forceUpdate({ inst });
     }
     const handleStoreChange = () => {
-      // TODO: Because there is no cross-renderer API for batching updates, it's
       // up to the consumer of this library to wrap their subscription event
       // with unstable_batchedUpdates. Should we try to detect when this isn't
       // the case and print a warning in development?

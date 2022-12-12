@@ -1,4 +1,3 @@
-// FIXME: @remix-run/router isn't being automatically versioned
 const path = require("path");
 const { execSync } = require("child_process");
 const fsp = require("fs/promises");

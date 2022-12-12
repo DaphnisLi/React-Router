@@ -3171,7 +3171,6 @@ function testDomRouter(
 
         // Resolve Comp2 loader and complete navigation - Comp1 fetcher is still
         // reflected here since deleteFetcher doesn't updateState
-        // TODO: Is this expected?
         dfd2.resolve("data 2");
         await waitFor(() => screen.getByText(/2.*idle/));
         expect(getHtml(container.querySelector("#output")))

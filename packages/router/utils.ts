@@ -511,7 +511,6 @@ function matchRouteBranch<
     let route = meta.route;
 
     matches.push({
-      // TODO: Can this as be avoided?
       params: matchedParams as Params<ParamKey>,
       pathname: joinPaths([matchedPathname, match.pathname]),
       pathnameBase: normalizePathname(

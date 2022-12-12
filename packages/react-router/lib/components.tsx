@@ -181,7 +181,6 @@ export function Navigate({
 }: NavigateProps): null {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of
     // the router loaded. We can help them understand how to avoid that.
     `<Navigate> may be used only in the context of a <Router> component.`
   );

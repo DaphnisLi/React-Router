@@ -53,7 +53,6 @@ export function useHref(
 ): string {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of the
     // router loaded. We can help them understand how to avoid that.
     `useHref() may be used only in the context of a <Router> component.`
   );
@@ -97,7 +96,6 @@ export function useInRouterContext(): boolean {
 export function useLocation(): Location {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of the
     // router loaded. We can help them understand how to avoid that.
     `useLocation() may be used only in the context of a <Router> component.`
   );
@@ -128,7 +126,6 @@ export function useMatch<
 >(pattern: PathPattern<Path> | Path): PathMatch<ParamKey> | null {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of the
     // router loaded. We can help them understand how to avoid that.
     `useMatch() may be used only in the context of a <Router> component.`
   );
@@ -157,7 +154,6 @@ export interface NavigateFunction {
 export function useNavigate(): NavigateFunction {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of the
     // router loaded. We can help them understand how to avoid that.
     `useNavigate() may be used only in the context of a <Router> component.`
   );
@@ -305,7 +301,6 @@ export function useRoutes(
 ): React.ReactElement | null {
   invariant(
     useInRouterContext(),
-    // TODO: This error is probably because they somehow have 2 versions of the
     // router loaded. We can help them understand how to avoid that.
     `useRoutes() may be used only in the context of a <Router> component.`
   );

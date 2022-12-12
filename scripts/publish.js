@@ -85,7 +85,6 @@ async function run() {
     await ensureBuildVersion("react-router-dom", version);
     await ensureBuildVersion("react-router-dom-v5-compat", version);
     await ensureBuildVersion("react-router-native", version);
-    // FIXME: @remix-run/router is versioned differently and isn't being
     // validated here
 
     // 4. Publish to npm

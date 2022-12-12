@@ -221,7 +221,6 @@ module.exports = function rollup() {
       output: [
         {
           // the server file needs to go in the package root directory
-          // TODO: Change this in v7
           file: `${SOURCE_DIR}/server.js`,
           format: "cjs",
         },
@@ -264,7 +263,6 @@ module.exports = function rollup() {
       output: [
         {
           // the server file needs to go in the package root directory
-          // TODO: Change this in v7
           file: `${SOURCE_DIR}/server.mjs`,
           format: "esm",
         },

@@ -24,7 +24,6 @@ import GoBack from "./TestSequences/GoBack";
 import GoForward from "./TestSequences/GoForward";
 import ListenPopOnly from "./TestSequences/ListenPopOnly";
 
-// TODO: Do we still need this?
 // const canGoWithoutReload = window.navigator.userAgent.indexOf('Firefox') === -1;
 // const describeGo = canGoWithoutReload ? describe : describe.skip;
 

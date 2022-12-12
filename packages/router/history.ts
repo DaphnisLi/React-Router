@@ -507,7 +507,6 @@ export function createLocation(
     hash: "",
     ...(typeof to === "string" ? parsePath(to) : to),
     state,
-    // TODO: This could be cleaned up.  push/replace should probably just take
     // full Locations now and avoid the need to run through this flow at all
     // But that's a pretty big refactor to the current test suite so going to
     // keep as is for the time being and just let any incoming keys take precedence

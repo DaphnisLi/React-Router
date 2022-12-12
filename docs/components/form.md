@@ -213,7 +213,6 @@ See also:
 
 # Examples
 
-TODO: More examples
 
 ## Large List Filtering
 
