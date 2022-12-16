@@ -114,10 +114,11 @@ export interface Navigator {
   replace(to: To, state?: any, opts?: NavigateOptions): void;
 }
 
+// TAG NavigationContext
 interface NavigationContextObject {
-  basename: string;
-  navigator: Navigator;
-  static: boolean;
+  basename: string; // 路由前缀, 会和 Route 的 path 拼在一起
+  navigator: Navigator; // history
+  static: boolean; // 服务端渲染
 }
 
 export const NavigationContext = React.createContext<NavigationContextObject>(
@@ -128,9 +129,10 @@ if (__DEV__) {
   NavigationContext.displayName = "Navigation";
 }
 
+// TAG LocationContext
 interface LocationContextObject {
   location: Location;
-  navigationType: NavigationType;
+  navigationType: NavigationType; // history 的触发类型, 共三种 pop、push、replace
 }
 
 export const LocationContext = React.createContext<LocationContextObject>(

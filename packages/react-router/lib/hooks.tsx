@@ -287,7 +287,9 @@ export function useResolvedPath(
   );
 }
 
+// TAG useRoutes
 /**
+ * ? 替代 Route https://reactrouter.com/en/main/hooks/use-routes
  * Returns the element of the route that matched the current location, prepared
  * with the correct context to render the remainder of the route tree. Route
  * elements in the tree must render an <Outlet> to render their child route's
@@ -392,6 +394,7 @@ export function useRoutes(
     );
   }
 
+  // TAG useRoutes: 匹配 path 和 location, 渲染指定的 Route
   let renderedMatches = _renderMatches(
     matches &&
       matches.map((match) =>
@@ -425,6 +428,7 @@ export function useRoutes(
   // to use the scoped location instead of the global location.
   if (locationArg && renderedMatches) {
     return (
+      // 包一层 LocationContext 的目的应该是将数据提供给子路由
       <LocationContext.Provider
         value={{
           location: {

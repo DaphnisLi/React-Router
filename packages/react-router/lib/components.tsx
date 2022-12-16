@@ -277,6 +277,7 @@ export interface RouterProps {
   static?: boolean;
 }
 
+// TAG Router: 将一些参数保存在 Context
 /**
  * Provides location context for the rest of the app.
  *
@@ -287,12 +288,12 @@ export interface RouterProps {
  * @see https://reactrouter.com/router-components/router
  */
 export function Router({
-  basename: basenameProp = "/",
+  basename: basenameProp = "/", // 路由前缀, 会和 Route 的 path 拼在一起。 比如 basename: /plm, path: /price/priceFlow
   children = null,
   location: locationProp,
-  navigationType = NavigationType.Pop,
-  navigator,
-  static: staticProp = false,
+  navigationType = NavigationType.Pop, // history 的触发类型, 共三种 pop、push、replace
+  navigator, // history
+  static: staticProp = false, // 服务端渲染传 true => StaticRouter
 }: RouterProps): React.ReactElement | null {
   invariant(
     !useInRouterContext(),
@@ -302,6 +303,7 @@ export function Router({
 
   // Preserve trailing slashes on basename, so we can let the user control
   // the enforcement of trailing slashes throughout the app
+  // 格式化: 不管输入任何字符串都会强制改成 /abc 这样的格式
   let basename = basenameProp.replace(/^\/*/, "/");
   let navigationContext = React.useMemo(
     () => ({ basename, navigator, static: staticProp }),
@@ -309,6 +311,7 @@ export function Router({
   );
 
   if (typeof locationProp === "string") {
+    // 如果 location 是字符串, 就解析 location, 获取 pathname、search、hash
     locationProp = parsePath(locationProp);
   }
 
@@ -320,7 +323,9 @@ export function Router({
     key = "default",
   } = locationProp;
 
+  // 全是 location 的属性
   let location = React.useMemo(() => {
+    // 将 basename 和 pathname 进行对比, 找到真正的 pathname
     let trailingPathname = stripBasename(pathname, basename);
 
     if (trailingPathname == null) {
@@ -362,6 +367,9 @@ export interface RoutesProps {
   location?: Partial<Location> | string;
 }
 
+// TAG Routes
+// Routes 实际上就是对 Route 封装了一下
+// Route 的主要作用就是将参数上的 path 拿来跟当前的 location 做对比, 如果匹配上了就渲染参数上的 component
 /**
  * A container for a nested tree of <Route> elements that renders the branch
  * that best matches the current location.
@@ -376,6 +384,7 @@ export function Routes({
   // When in a DataRouterContext _without_ children, we use the router routes
   // directly.  If we have children, then we're in a descendant tree and we
   // need to use child routes.
+  // ? 将 children 转化成对象
   let routes =
     dataRouterContext && !children
       ? (dataRouterContext.router.routes as DataRouteObject[])

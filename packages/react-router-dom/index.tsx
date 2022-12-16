@@ -271,6 +271,7 @@ export interface BrowserRouterProps {
   window?: Window;
 }
 
+// TAG BrowserRouter
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */
@@ -290,6 +291,9 @@ export function BrowserRouter({
     location: history.location,
   });
 
+  // popstate 事件的回调函数
+  // url 改变后, 会 set 新的 url 信息, 然后路由根组件发起更新, 渲染指定的 Route 组件
+  // useLayoutEffect 的回调函数是同步的, 在 commitLayoutEffects 阶段
   React.useLayoutEffect(() => history.listen(setState), [history]);
 
   return (
@@ -385,7 +389,12 @@ export interface LinkProps
   to: To;
 }
 
+// TAG Link
 /**
+ * Link 就是一个跳转, 浏览器上要实现一个跳转可以用 a 标签, 但是直接使用 a 标签会导致页面刷新, 所以不能直接使用它, 而应该使用 history API
+ *
+ * history.pushState 只会改变 history 状态, 不会触发 popstate。所以 popstate 的回调不会调用, 当用户使用history.push 的时候我们需要手动调用回调函数
+ *
  * The public API for rendering a history-aware <a>.
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
@@ -415,11 +424,12 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ) {
       if (onClick) onClick(event);
+      // 当前事件是否调用了 event.preventDefault()方法。
       if (!event.defaultPrevented) {
         internalOnClick(event);
       }
     }
-
+    // ? 一般都会执行 handleClick, 它会执行 event.preventDefault(), 阻止原生事件
     return (
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a

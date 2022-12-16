@@ -327,6 +327,8 @@ export interface BrowserHistory extends UrlHistory {}
 
 export type BrowserHistoryOptions = UrlHistoryOptions;
 
+// TAG createBrowserHistory
+
 /**
  * Browser history stores the location in regular URLs. This is the standard for
  * most web apps, but it requires some configuration on the server to ensure you
@@ -582,6 +584,11 @@ export type UrlHistoryOptions = {
   v5Compat?: boolean;
 };
 
+// TAG createBrowserHistory: 主要逻辑
+/**
+ * 对 window.history 进行封装, 并注册 popstate 事件
+ * popstate 事件: 前进、后退、a 标签、代码里执行 history.back() 、history.forward()、history.go()
+ */
 function getUrlBasedHistory(
   getLocation: (window: Window, globalHistory: Window["history"]) => Location,
   createHref: (window: Window, to: To) => string,
@@ -591,6 +598,7 @@ function getUrlBasedHistory(
   let { window = document.defaultView!, v5Compat = false } = options;
   let globalHistory = window.history;
   let action = Action.Pop;
+  // TAG createBrowserHistory: 保存着 popstate 事件的回调函数, 其实里面就是 setState, 用来更新 Router 组件, 使其控制渲染指定的 Route 组件
   let listener: Listener | null = null;
 
   function handlePop() {
@@ -600,6 +608,8 @@ function getUrlBasedHistory(
     }
   }
 
+  // ? 兼容 history.pushState() , 其不会触发 popstate 事件, 所以在这里要手动执行 listener
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/History/pushState
   function push(to: To, state?: any) {
     action = Action.Push;
     let location = createLocation(history.location, to, state);
@@ -622,6 +632,8 @@ function getUrlBasedHistory(
     }
   }
 
+    // ? 兼容 history.replace() , 其不会触发 popstate 事件, 所以在这里要手动执行 listener
+    // https://developer.mozilla.org/zh-CN/docs/Web/API/History/replaceState
   function replace(to: To, state?: any) {
     action = Action.Replace;
     let location = createLocation(history.location, to, state);
@@ -636,6 +648,7 @@ function getUrlBasedHistory(
     }
   }
 
+  // TAG History
   let history: History = {
     get action() {
       return action;

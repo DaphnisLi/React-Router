@@ -752,12 +752,16 @@ export function stripBasename(
 ): string | null {
   if (basename === "/") return pathname;
 
+  // pathname 以 basename 开头
   if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
     return null;
   }
+  // pathname: /plm/price
+  // basename: /plm
 
   // We want to leave trailing slash behavior in the user's control, so if they
   // specify a basename with a trailing slash, we should support it
+  // basename 以 '/' 结尾
   let startIndex = basename.endsWith("/")
     ? basename.length - 1
     : basename.length;
