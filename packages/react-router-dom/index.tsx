@@ -292,7 +292,7 @@ export function BrowserRouter({
   });
 
   // popstate 事件的回调函数
-  // 注意, 这里只是在首次渲染时, 将 setState 注册进去, 后续 url 将不会再执行 useLayoutEffect, 因为 history 是 useRef。而且也不需要再执行, 因为已经注册过了 popstate 的回调函数。
+  // ! 注意, 这里只是在首次渲染时, 将 setState 注册进去, 后续 url 将不会再执行 useLayoutEffect, 因为 history 是 useRef。而且也不需要再执行, 因为已经注册过了 popstate 的回调函数。
   // 如果用户自己执行 pushState 和 replaceState, 那也不用管, 就算 url 变了也不更新组件 (url 变了, 页面不变)
   // useLayoutEffect 的回调函数是同步的, 在 commitLayoutEffects 阶段
   React.useLayoutEffect(() => history.listen(setState), [history]);
