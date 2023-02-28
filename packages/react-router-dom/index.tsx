@@ -292,9 +292,9 @@ export function BrowserRouter({
   });
 
   // popstate 事件的回调函数
-  // ! 注意, 这里只是在首次渲染时, 将 setState 注册进去, 后续 url 将不会再执行 useLayoutEffect, 因为 history 是 useRef。而且也不需要再执行, 因为已经注册过了 popstate 的回调函数。
+  // ! 注意, 这里只是在首次渲染时, 将 setState 注册进去, 后续 url 更新将不会再执行 useLayoutEffect, 因为 history 是 useRef。而且也不需要再执行, 因为已经注册过了 popstate 的回调函数。
   // 如果用户自己执行 pushState 和 replaceState, 那也不用管, 就算 url 变了也不更新组件 (url 变了, 页面不变)
-  // useLayoutEffect 的回调函数是同步的, 在 commitLayoutEffects 阶段
+  // useLayoutEffect 的回调函数是同步的, 在 commitLayoutEffects 阶段（DOM 变更后）
   React.useLayoutEffect(() => history.listen(setState), [history]);
 
   return (
@@ -392,9 +392,9 @@ export interface LinkProps
 
 // TAG Link
 /**
- * Link 就是一个跳转, 浏览器上要实现一个跳转可以用 a 标签, 但是直接使用 a 标签会导致页面刷新, 所以不能直接使用它, 而应该使用 history API
+ * Link 就是一个跳转, 浏览器上要实现一个跳转可以用 a 标签, 但是直接使用 a 标签会导致页面刷新, 所以不能直接使用它, 而应该使用 history API。
  *
- * history.pushState 只会改变 history 状态, 不会触发 popstate。所以 popstate 的回调不会调用, 当用户使用history.push 的时候我们需要手动调用回调函数
+ * history.pushState 只会改变 history 状态, 不会触发 popstate 事件, 所以 popstate 事件的回调不会调用。当用户使用 history.push 的时候需要手动调用 popstate 的回调。
  *
  * The public API for rendering a history-aware <a>.
  */
@@ -427,6 +427,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       if (onClick) onClick(event);
       // 当前事件是否调用了 event.preventDefault()方法。
       if (!event.defaultPrevented) {
+        // 调用了默认事件, 这里亲自阻止下。
         internalOnClick(event);
       }
     }

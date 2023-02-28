@@ -151,6 +151,7 @@ export interface NavigateFunction {
  *
  * @see https://reactrouter.com/hooks/use-navigate
  */
+// TAG Link 跳转逻辑
 export function useNavigate(): NavigateFunction {
   invariant(
     useInRouterContext(),
@@ -181,6 +182,7 @@ export function useNavigate(): NavigateFunction {
 
       if (!activeRef.current) return;
 
+      // 如果 to 是数字, 那么就直接读取 history state 里的记录
       if (typeof to === "number") {
         navigator.go(to);
         return;
@@ -204,6 +206,7 @@ export function useNavigate(): NavigateFunction {
             : joinPaths([basename, path.pathname]);
       }
 
+      // 执行跳转
       (!!options.replace ? navigator.replace : navigator.push)(
         path,
         options.state,
